@@ -1,3 +1,10 @@
+# Introduction
+
+- an application is an executable running on one machine
+- a system is many applicatons running across many machines
+- a system has connectivity concerns
+
+
 # The 10 Fallacies of Distributed Systems
 
 ## 1. The Network is reliable
@@ -9,13 +16,13 @@
 - if you introduce this then you have to consider that this must be asynchronous in nature, since you can't guarantee when the message will be delivered.You can only assme that it will be. 
 - there you cannot rely on doing request/response synchronous behaviour in distributed systems on an unreliable network
 
-##  Latency isn't a problem
+## 2. Latency isn't a problem
 
 - if a cpu cycle is 1s then memory is the order of minutes, local disk is the order of days, and call across the US (real term 40ms) is in the order of a nuber of years when scaled up. 
 - don't cross the network unless you have to
 - if you have to cross the network, then take all your data with you
 
-## Bandwidth isn't a problem
+## 3. Bandwidth isn't a problem
 
 - though bandwidth is increasing, data transpfer is slowing down due to congestion
 - a common example is eager fetching in ORMs
@@ -27,7 +34,7 @@
 - decompose to having more than one domain where each is designed to handle a subset of the data, so that each can have local optimisations such as eager fetch etc.
 - make the design not priority centric, rather make the design entity centric
 
-## The network is secure
+## 4.The network is secure
 
 - nothing is 100% safe, even if isolated, as people will do dumb stuff, using portable media or other things
 - devs often run with admin privileges, owning this will could compromise anything you connect to
@@ -39,7 +46,7 @@
 - talk to the business about having a plan B when it happens, and make sure to  include PR and Legal teams in this discussion
 - newer hardware will alaways be able to crack much faster, and you can guaratee this.
 
-## The topology will not change
+## 5. The topology will not change
 
 - servers will go down, addersses might change and holding onto the address of the client could be a problem
 - synchronous calls could tie up resources (also this could be used to attack your system)
@@ -49,7 +56,7 @@
 - will the system be able to retain performance characteristics if the topology changes. 
 - performance test early
 
-## The admin will know what to do
+## 6. The admin will know what to do
 
 - until they get promoted/move on, so assume that no one knows everything about the system
 - if you have to choose something, then make something configurable though this will inevitably lead to too much for someone to understand
@@ -61,7 +68,7 @@
 - too much or too little logging could be a problem 
 - focus on the needles not the haystacks, and develop better magnets to find the needles
 
-## Transport cost is not a problem
+## 7. Transport cost is not a problem
 
 - serialisation has a cpu cost, and more data results in higher cost
 - often this cost is not usually in performance testing as it's 'invisible'
@@ -70,6 +77,69 @@
 - hardware and network infrastructure has both upfront **and ongoing** cost
 - not all netowork boundaries are the same. geographically distributed systems means that transport costs increase with distance.
 - different networks could have greatly different costs, for instance cellular, satellite are very expensive
+
+## 8. The network is homogeneous
+
+- in the past we had homogeneous networks, but the internet changes all that
+- there are many platforms, languages, types of systems, types of networks, protocols, database types, stuff people have hacked over http for instance
+- what about serialisation incompatibilities
+- semantic interoperability is hard and needs to be budgeted for. Remember these problems occur in the real world, and usually not in dev/test. Consider the exmaple of the patient admission where age is not available, and medicine dispensing where age is a requirement.
+
+# The fallacies of Enterprise systems
+
+
+## 9. The system is atomic
+
+- maintenance is hard  in *big balls of mud* as a change could effect other parts
+- people don't start out trying to build *big balls of mud*
+- integration through the db creates coupling even more so if store xml/json/etc in there. schemas are hard, nested schemas are really hard
+- if the system wasn't designed to scale out to many machines, do this could result in hurting performance
+- the solution is loose coupling and modularisation. which domain sits on which side of which boundary
+- design for scale out in advance or you'll be stuck with scale up
+
+## 10. The system is finished
+
+- maintenance costs over the lifetime are far far greater than development costs
+- changes will always come in later and therefore the system is never "fnished". this is when the real work starts
+- if it's harder to fix bugs and do new features in maintenance so why do not design the system to make this cheaper? 
+- we should design the things for less skilled people than us, so why do we not?
+- we shouldn't consider a maintenance period in a project, we should consider the term product not project
+- a product has a long life, perhaps for ever
+- we should consider that software should be designed as though it's a product that lives for ever
+- something that lives forever should have teams that may have changing people, but work with it for a long time
+
+### 10.1 A better development progrcesss
+
+- BA doesn't dictate, they help you understand the why
+- architects/principals help with estimates 
+- estimates should be of the form ***"Given a well formed teams of size S, that is not working on anything else, then I'm C% confident that the work will take between T1 & T2"***
+- estimates are comminication tools for communication with business stakeholders. these can be used to enable the business to make better decisions
+- the decision is the requirement
+
+
+## 11 Business logic can and should be centralised
+
+- where to enforce the business rules, everywhere?
+- we should be concerned as to what happens when the rules change and we forget a somewhere
+- the more we create resusable components, the more we introduces dependancies where they are used, and the more likelyhood that change will introduce problems due to the is tight coupling
+- change invariable comes later rather than earlier, so the designing for flexibility could be a curse
+- the solution 
+  1. logic **will** be distributed 
+  2. we can centralise the development view using the 4+1 views of software
+  3. **tag** source code with feature implemented, so that we could find all the code that's gone into a feature, even if it's multiple files
+
+  by tagging the files (e.g. issue connected to PR connected to files) we can get 'one place' the logic exists - rather than it being in 'one shared' component that is 'reused'. hence the logic is resued not the artefact. this is the centralisation of the development view. duplication is not evil as we have tools that mitigate it's issues. **DON'T BE DRY, BE WET!**
+
+# Summary
+
+- best practices haven't yet caught up with "best thinking"
+- technology can't solve all the problems
+- adding hardware doesn't necessarily help
+
+*don't fight the laws of physics!* 
+
+ 
+
 
 
 
