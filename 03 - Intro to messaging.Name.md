@@ -48,4 +48,14 @@
 - you can use `poison letter` queues to store messages for later troubleshooting in case all the retries fail.
   - should alert something
   - should be in monitoring
-  - nservicebus calls this the error queue, and has a ui to iew this and the issues that caused it
+  - nservicebus calls this the error queue, and has a ui to view this and the issues that caused it
+
+## Auditing/Journaling
+
+- journaling  provides a log of the messages
+- journaling can be done by moving messages to `audit queues` and eventually move to `archive storage` 
+- allows processing queues to not get full
+- usually built into the queuing technology
+- correlation ids give context. If you use the previous message id as the correlation for the subsequent message, then this allows you get a cause-effect view of the workflow.
+- correlation allow the creation of audit trails
+ 
