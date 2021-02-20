@@ -49,6 +49,7 @@
   - should alert something
   - should be in monitoring
   - nservicebus calls this the error queue, and has a ui to view this and the issues that caused it
+- default to reliability over performance until you have a performance concern
 
 ## Auditing/Journaling
 
@@ -58,4 +59,23 @@
 - usually built into the queuing technology
 - correlation ids give context. If you use the previous message id as the correlation for the subsequent message, then this allows you get a cause-effect view of the workflow.
 - correlation allow the creation of audit trails
- 
+
+## Web services invocation
+
+- when calling other services, they might have completed processing, but we have an error then we must understand if the service has rollback/ignore duplicates. 
+- spoiler - this is bad as we could end up with data in our service is out of date compared to others. 
+  - Consider where we rollback but the third party doesn't think it's a duplicate and processes again. 
+  - Example of shipping company shipping twice while you have no record of first transaction
+- eventual inconsistency will creep if you mix paradigms from your own to the other services
+- always try to ensure that you always refer to the same thing in the same way (e.g. don't generate a new id for a retried call)
+- message queues allow transactions before the outgoing message is sent out
+- if the third party doesn't handle duplicate messages (same id) then you could be screwed by their caching or other things causing stale data
+- use messaging gateway with queues to manage this - as they reduce the temporal coupling with other services
+- as you introduce messaging and asynchronous behaviour your data will change and thus business workflows will have to accommodate this `eventual data consistency` 
+
+## Summary
+
+- afferent and efferent coupling is inherently lowered
+- temporal is reduced coupling by asynchronous messaging
+- platform coupling is reduced with using standards like AMQP and xml/json
+- autonomy increases 
