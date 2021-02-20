@@ -24,3 +24,19 @@
 - a good web server will recycle processes when it feels processes are in trouble, and this increases pressure further
 - a good queuing system will generally be more available than your application services and thus should be ready before you in the case of server restarts
 
+## Service interfaces and strongly typed messages
+
+- there is a difference between service interfaces and messaging interfaces
+- service layers grow large over time
+- get difficult as more and more devs interact with the code and for them to collaborate
+- monolithic apis have problems with scaling in terms of prioritisation
+- use strongly types messages to get the scalability
+- represent the service methods as messages instead with the DTO being the message
+- allows us to have independant logical routing for different message types
+- this breaks up monolithic service surfaces into independantly managed/versioned smaller services and decreases the `platform coupling` of the apis 
+- nservicebus : [Full Duplex sample](https://docs.particular.net/samples/fullduplex/) from particular.net
+   - review [ConfigureAwait(false)](https://devblogs.microsoft.com/dotnet/configureawait-faq/) to understand the code better
+   - remember to share message schema, not classes in the real world
+
+
+
