@@ -28,7 +28,7 @@
 
 - there is a difference between service interfaces and messaging interfaces
 - service layers grow large over time
-- get difficult as more and more devs interact with the code and for them to collaborate
+- get difficult as more and more people interact with the code and for them to collaborate
 - monolithic apis have problems with scaling in terms of prioritisation
 - use strongly types messages to get the scalability
 - represent the service methods as messages instead with the DTO being the message
@@ -49,4 +49,3 @@
   - should alert something
   - should be in monitoring
   - nservicebus calls this the error queue, and has a ui to iew this and the issues that caused it
-- 
