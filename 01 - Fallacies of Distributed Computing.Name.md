@@ -75,7 +75,7 @@
 - in the cloud this is major design factor
 - better logical decoupling results in more options as you can always choose what to distribute and what to not, later. queuing/asynchronous architectures lead to this very well. The logical and the physical need not be the 1:1
 - hardware and network infrastructure has both upfront **and ongoing** cost
-- not all netowork boundaries are the same. geographically distributed systems means that transport costs increase with distance.
+- not all network boundaries are the same. geographically distributed systems means that transport costs increase with distance.
 - different networks could have greatly different costs, for instance cellular, satellite are very expensive
 
 ## 8. The network is homogeneous
