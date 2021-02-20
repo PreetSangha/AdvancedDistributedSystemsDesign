@@ -38,5 +38,15 @@
    - review [ConfigureAwait(false)](https://devblogs.microsoft.com/dotnet/configureawait-faq/) to understand the code better
    - remember to share message schema, not classes in the real world
 
+## Fault tolerance
 
-
+- infrastructure will fail (see fallacy 1) and messaging handles that
+- write messages to the incoming queue when a message arrives, but before the client is informed. This reduces the scope of the http message to just this. 
+- later in the client you can use, for instance, distributed transaction semantics to pull the message and perform the action (e.g. write to db), and if this fails then the message removal is also rolled back
+- queuing systems invariably have things like retry built in, so helping us extend the time we can handle the message
+- we should organise the system to retry intelligently
+- you can use `poison letter` queues to store messages for later troubleshooting in case all the retries fail.
+  - should alert something
+  - should be in monitoring
+  - nservicebus calls this the error queue, and has a ui to iew this and the issues that caused it
+- 
