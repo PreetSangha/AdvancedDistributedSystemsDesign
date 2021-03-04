@@ -49,3 +49,15 @@
 - works opposite to brokers in that the expectation bus doesn't change, rather the apps do. So logic is not in the bus, rather in the apps
 - you should think of the network to be dumb compared to the apps
 - ESB are brokers packaged as buses
+
+## Summary
+
+- don't try to enforce one architectural style. Sometimes having multiple in different places is reasonable.
+- not all systems support distributed (XA) transactions
+- you don't always need a broker to integrations. For instance MapForce can be used to generate code that does mapping for integrations
+  - get to the dumb pipes/smart endpoints if you use MapForce 
+  - protocol bridges (e.g. ip#works)
+  - then all that's left is the business logic
+- brokers are really not suited to distributed systems compared to robust bus technologies
+- often you will use elements of both
+
