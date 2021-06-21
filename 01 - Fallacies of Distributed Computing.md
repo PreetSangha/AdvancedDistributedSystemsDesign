@@ -13,13 +13,14 @@
 - your message could have been received but no reply returned
 - your message may never have been received
 - you could introduce some abstraction for reliability such as store/forward queuing etc
-- if you introduce this then you have to consider that this must be asynchronous in nature, since you can't guarantee when the message will be delivered.You can only assume that it will be. 
+- if you introduce this then you have to consider that this must be asynchronous in nature, since you can't guarantee when the message will be delivered. You can only assume that it will be.
 - there you cannot rely on doing request/response synchronous behaviour in distributed systems on an unreliable network
 
 ## 2. Latency isn't a problem
 
-- if a cpu cycle is 1s then memory is the order of minutes, local disk is the order of days, and call across the US (real term 40ms) is in the order of a number of years when scaled up. 
+- if a cpu cycle is 1s then memory is the order of minutes, local disk is the order of days, and call across the US (real time is about 40ms) is in the order of a number of years when scaled up
 - don't cross the network unless you have to
+- think about how you code a call to a remote service. Does your code hide remote calls, for instance through DI containers?
 - if you have to cross the network, then take all your data with you
 
 ## 3. Bandwidth isn't a problem
@@ -31,8 +32,8 @@
 - don't underestimate the bandwidth of truck full of hard drives
 - move time critical data to separate networks with different traffic priorities
 - we can't eagerly fetch/lazy load everything
-- decompose to having more than one domain where each is designed to handle a subset of the data, so that each can have local optimisations such as eager fetch etc.
-- make the design not priority centric, rather make the design entity centric
+- decompose to having more than one domain where each is designed to handle a subset of the data, so that* each can have local optimisations such as eager fetch etc.
+- make the design entity centric **not priority centric**
 
 ## 4.The network is secure
 
@@ -50,10 +51,10 @@
 
 - servers will go down, addresses might change and holding onto the address of the client could be a problem
 - synchronous calls could tie up resources (also this could be used to attack your system)
-- don't hard code ip address, domain names etc. 
+- don't hard code ip address, domain names etc.
 - consider using more resilient protocols (e.g. multicast)
 - self discovery mechanisms are fragile and not scale. consider if one service is restarted - will it rediscover
-- will the system be able to retain performance characteristics if the topology changes. 
+- will the system be able to retain performance characteristics if the topology changes.
 - performance test early
 
 ## 6. The admin will know what to do
@@ -68,7 +69,7 @@
 - too much or too little logging could be a problem 
 - focus on the needles not the haystacks, and develop better magnets to find the needles
 
-## 7. Transport cost is not a problem
+## 7. Transport cost isn't a problem
 
 - serialisation has a cpu cost, and more data results in higher cost
 - often this cost is not usually in performance testing as it's 'invisible'
